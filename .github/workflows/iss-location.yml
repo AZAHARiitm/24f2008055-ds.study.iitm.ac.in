@@ -1,0 +1,29 @@
+name: Cache Example Workflow
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: prime-cache-7552d55
+        id: cache-step
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: cache-7552d55
+
+      - name: Show cache result
+        run: echo "Cache result: ${{ steps.cache-step.outputs.cache-hit }}"
+
+      - name: Install dependencies
+        run: |
+          echo "Installing dependencies..."
+          npm install
